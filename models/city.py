@@ -1,21 +1,15 @@
 #!/usr/bin/python3
+""" City Module for HBNB project """
+from models.base_model import Base
+from models.base_model import BaseModel
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import String
+from sqlalchemy.orm import relationship
 
-"""
-City model
-"""
-class City:
-    """
-    City class
-    """
-    # public class attributes
-    state_id = ''
-    name = ''
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__class__ = City
-        self.state_id = kwargs.get('state_id', '')
-        self.name = kwargs.get('name', '')
-    def __str__(self):
-        return "[State] ({}) {}".format(self.id, self.__dict__)
-    
+class City(BaseModel, Base):
+    """ The city class, contains state ID and name """
+    __tablename__ = "cities"
+    name = Column(String(128), nullable=False)
+    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)

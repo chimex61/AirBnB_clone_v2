@@ -1,19 +1,15 @@
 #!/usr/bin/python3
+"""Defines the Amenity class."""
+from models.base_model import Base
+from models.base_model import BaseModel
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy.orm import relationship
 
-"""
-Amnety model
-"""
 
-class Amenity:
-    """
-    Amnety class
-    """
-    # public class attributes
-    name = ''
-
-    def __init__(self, *args, **kwargs):
-        self.__class__ = Amenity
-        self.name = kwargs.get('name', '')
-    def __str__(self):
-        return "[Amnety] ({}) {}".format(self.id, self.__dict__)
-    
+class Amenity(BaseModel, Base):
+    """Amenity model"""
+    __tablename__ = "amenities"
+    name = Column(String(128), nullable=False)
+    place_amenities = relationship("Place", secondary="place_amenity",
+                                   viewonly=False)

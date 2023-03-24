@@ -1,32 +1,22 @@
 #!/usr/bin/python3
-
-"""
-User model
-"""
-
-# class user that inherits from BaseModel
-from models.base_model import BaseModel
+"""This is the user class"""
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship, backref
 
 
-class User(BaseModel):
+class User(BaseModel, Base):
+    """This is the class for user
+    Attributes:
+        email: email address
+        password: password for you login
+        first_name: first name
+        last_name: last name
     """
-    User class
-    """
-    # public class attributes
-    email = ''
-    password = ''
-    first_name = ''
-    last_name = ''
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__class__ = User
-        self.email = kwargs.get('email', '')
-        self.password = kwargs.get('password', '')
-        self.first_name = kwargs.get('first_name', '')
-        self.last_name = kwargs.get('last_name', '')
-
-    def __str__(self):
-        return "[User] ({}) {}".format(self.id, self.__dict__)
-        
-
+    __tablename__ = 'users'
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    first_name = Column(String(128))
+    last_name = Column(String(128))
+    places = relationship("Place", cascade="all, delete", backref="user")
+    reviews = relationship("Review", passive_deletes=True, backref="user")
